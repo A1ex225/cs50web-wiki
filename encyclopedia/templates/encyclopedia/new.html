@@ -1,0 +1,38 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Create New Page
+{% endblock %}
+
+{% block body %}
+    <h1>Create New Page</h1>
+
+    {% if error %}
+        <div class="alert alert-danger">
+            <strong>Error:</strong> {{ error }}
+        </div>
+    {% endif %}
+
+    <form action="{% url 'new_page' %}" method="post">
+        {% csrf_token %}
+
+        <div class=""form-group>
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter page title" value="{{ title| default:'' }}" required>
+        </div>
+
+        <small class="form-text text-muted">
+            The title will be automatically added as a heading to the content.
+        </small>
+
+        <div class="form-group">
+            <label for="content">Content (Markdown):</label>
+            <textarea class="form-control" id="content" name="content" rows="15" placeholder="Write page content in Markdown format" required>{{ content|default:'' }}</textarea>
+            <small class="form-text text-muted"> You can use Markdown syntax for formating </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Page</button>
+        <a href="{% url 'index' %}" class="btn btn-primary">Cancel</a>
+    </form>
+
+{% endblock %}

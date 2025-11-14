@@ -1,0 +1,32 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search: {{ query }}
+{% endblock %}
+
+{% block body %}
+    <h1>Search Results:</h1>
+
+    <div class="search-info">
+        <p>You searched for:<strong> {{ query }}</strong></p>
+    </div>
+
+    {% if matches %}
+    <p>Found {{ matches| length}} result{{ matches|length| pluralize }}:</p>
+    <ul>
+        {% for entry in matches %}
+        <li><a href="{% url 'entry' title=entry %}">{{entry}}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="no-results">
+        <p>No results found.</p>
+        <a href="{% url 'new_page' %}">Create "{{ query }}" page</a>
+    </div>
+    {% endif %}
+
+    <div class="back-link">
+        <a href="{% url 'index' %}">Back to all pages</a>
+    </div>
+
+{% endblock %}
