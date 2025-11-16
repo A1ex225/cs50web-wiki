@@ -112,3 +112,19 @@ def edit_page(request, title):
         "title": title,
         "content": content_for_edit,
     })
+
+def random_page(request):
+    try:
+        all_entries = util.list_entries()
+
+        valid_entries = [entry for entry in all_entries if entry]
+        if not valid_entries:
+            return render(request, "encyclopedia/error.html", {
+                "error_title": "No pages available",
+                "error_message": "There are no encyclopedia entries yet."
+            })
+            
+        random_entry = random.choice(valid_entries)
+        return redirect('entry', title=random_entry)
+    except Exception as e:
+        return redirect('index')
